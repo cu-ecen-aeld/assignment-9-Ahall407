@@ -1,6 +1,6 @@
 # LDD
 
-LDD_VERSION = '8b350decbcfdb347669733b51f66dbf7a619d9b3'
+LDD_VERSION = '161acfd0a795b590050a3bbdddbcb9187b913040'
 LDD_SITE = 'git@github.com:cu-ecen-aeld/assignment-7-Ahall407.git'
 LDD_SITE_METHOD = git
 LDD_GIT_SUBMODULES = YES

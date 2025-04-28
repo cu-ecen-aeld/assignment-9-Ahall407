@@ -12,27 +12,19 @@ jobs:
         timeout-minutes: 120
         steps:
           - uses: actions/checkout@v2
+          - name: Cache buildroot downloads and builds
+            uses: actions/cache@v4
+            with:
+              path: |
+                buildroot/dl
+                buildroot/output/build
+              key: ${{ runner.os }}-buildroot-${{ hashFiles('buildroot/Config.in', 'buildroot/package/**', '.config') }}
+              restore-keys: |
+                ${{ runner.os }}-buildroot-
+          - name: Prepare Buildroot
+            run: make -C buildroot olddefconfig
           - name: Checkout submodules
             run: git submodule update --init --recursive
-          
-          # ADD CACHE FOR buildroot/dl (downloaded sources)
-          - name: Cache buildroot downloads (dl/)
-            uses: actions/cache@v4
-            with:
-              path: buildroot/dl
-              key: buildroot-dl-${{ hashFiles('buildroot/package/**', 'buildroot/Config.in') }}
-              restore-keys: |
-                buildroot-dl-
-
-          # (Optional) ADD CACHE FOR buildroot/output/build (built package trees)
-          - name: Cache buildroot output/build (optional)
-            uses: actions/cache@v4
-            with:
-              path: buildroot/output/build
-              key: buildroot-build-${{ hashFiles('buildroot/**') }}
-              restore-keys: |
-                buildroot-build-
-
           - uses: webfactory/ssh-agent@v0.5.3
             with:
                 ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}

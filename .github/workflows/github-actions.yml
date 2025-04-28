@@ -18,7 +18,7 @@ jobs:
               path: |
                 buildroot/dl
                 buildroot/output/build
-              key: ${{ runner.os }}-buildroot-${{ hashFiles('buildroot/Config.in', 'buildroot/package/**', '.config') }}
+              key: ${{ runner.os }}-buildroot-${{ hashFiles('buildroot/Config.in buildroot/package/** .config') }}
               restore-keys: |
                 ${{ runner.os }}-buildroot-
           - name: Prepare Buildroot

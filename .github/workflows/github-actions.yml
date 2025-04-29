@@ -22,7 +22,9 @@ jobs:
               restore-keys: |
                 ${{ runner.os }}-buildroot-
           - name: Prepare Buildroot
-            run: make -C buildroot olddefconfig
+            run: |
+              DEFCONFIG_PATH="$(pwd)/base_external/configs/aesd_qemu_defconfig"
+              make -C buildroot BR2_DEFCONFIG="$DEFCONFIG_PATH" defconfig
           - name: Checkout submodules
             run: git submodule update --init --recursive
           - uses: webfactory/ssh-agent@v0.5.3

@@ -1,0 +1,4 @@
+config BR2_PACKAGE_LDD
+    bool "ldd"
+    help
+      Misc modules and skull for your system.

@@ -12,6 +12,17 @@ jobs:
         timeout-minutes: 120
         steps:
           - uses: actions/checkout@v2
+          - name: Cache buildroot downloads and builds
+            uses: actions/cache@v4
+            with:
+              path: |
+                buildroot/dl
+                buildroot/output/build
+              key: ${{ runner.os }}-buildroot-${{ hashFiles('buildroot/Config.in buildroot/package/** .config') }}
+              restore-keys: |
+                ${{ runner.os }}-buildroot-
+          - name: Prepare Buildroot
+            run: make -C buildroot olddefconfig
           - name: Checkout submodules
             run: git submodule update --init --recursive
           - uses: webfactory/ssh-agent@v0.5.3

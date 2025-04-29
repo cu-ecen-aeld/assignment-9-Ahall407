@@ -13,6 +13,8 @@ jobs:
         steps:
           - uses: actions/checkout@v2
           - name: Cache buildroot downloads and builds
+          - name: Checkout submodules
+            run: git submodule update --init --recursive
             uses: actions/cache@v4
             with:
               path: |
@@ -23,8 +25,6 @@ jobs:
                 ${{ runner.os }}-buildroot-
           - name: Prepare Buildroot
             run: make -C buildroot BR2_DEFCONFIG="$(pwd)/base_external/configs/aesd_qemu_defconfig" defconfig
-          - name: Checkout submodules
-            run: git submodule update --init --recursive
           - uses: webfactory/ssh-agent@v0.5.3
             with:
                 ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
